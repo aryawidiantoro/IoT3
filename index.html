@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Blynk Sensor Kelembaban</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #f4f4f4; /* Warna latar belakang */
+        padding: 20px;
+      }
+      h1 {
+        color: #003a70; /* Warna judul */
+        font-size: 2.5em;
+      }
+      .container {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin: 20px auto;
+        width: 80%;
+      }
+      .gauge {
+        margin: 20px 0;
+        padding: 20px;
+        border: 2px solid #003a70;
+        border-radius: 8px;
+        background-color: #e6f7ff;
+        font-size: 1.5em;
+      }
+      footer {
+        margin-top: 20px;
+        font-size: 0.9em;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Data Blynk Sensor Kelembaban</h1>
+    <div class="container">
+      <div id="kelembaban1" class="gauge">Kelembaban 1: %</div>
+      <div id="kelembaban2" class="gauge">Kelembaban 2: %</div>
+      <div id="kelembaban3" class="gauge">Kelembaban 3: %</div>
+      <div id="kelembaban4" class="gauge">Kelembaban 4: %</div>
+      <div id="rata-rata" class="gauge">Rata-rata Kelembaban: %</div>
+    </div>
+    <footer>
+      <p>Nama: Muhammad Arya Widiantoro</p>
+      <p>NIM: 21507334008</p>
+      <p>Tugas Akhir</p>
+    </footer>
+
+    <script>
+      const blynkToken = "duKOpwRdT2HL9F02YhfTLh2ENI8yS5rQ"; // Ganti dengan token Blynk Anda
+      const pins = [0, 1, 2, 3, 4]; // Virtual pins untuk kelembaban dan rata-rata
+
+      function fetchData(pin, elementId, label) {
+        const url = `https://blynk.cloud/external/api/get?token=${blynkToken}&pin=V${pin}`; // Perbaikan di sini
+        fetch(url)
+          .then((response) => response.text())
+          .then((data) => {
+            document.getElementById(elementId).innerText = `${label}: ${data}%`;
+          })
+          .catch((error) => console.error("Error fetching data:", error));
+      }
+
+      function updateData() {
+        fetchData(pins[0], "kelembaban1", "Kelembaban 1");
+        fetchData(pins[1], "kelembaban2", "Kelembaban 2");
+        fetchData(pins[2], "kelembaban3", "Kelembaban 3");
+        fetchData(pins[3], "kelembaban4", "Kelembaban 4");
+        fetchData(pins[4], "rata-rata", "Rata-rata Kelembaban");
+      }
+
+      setInterval(updateData, 10000); // Ambil data setiap 10 detik
+      updateData(); // Ambil data saat halaman dimuat
+    </script>
+  </body>
+</html>
